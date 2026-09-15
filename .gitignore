@@ -12,8 +12,10 @@ dist
 dist-ssr
 *.local
 
-# Backup
-reserve
+# Environment variables (never commit secrets)
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*

@@ -36,6 +36,8 @@ export default function Projects() {
   ];
 
   useEffect(() => {
+    const section = sectionRef.current;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -45,13 +47,13 @@ export default function Projects() {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (section) {
+      observer.observe(section);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (section) {
+        observer.unobserve(section);
       }
     };
   }, []);

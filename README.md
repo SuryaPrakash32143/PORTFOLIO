@@ -1,16 +1,62 @@
-# React + Vite
+# Surya Prakash — AI/ML Engineer Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A personal portfolio website built with **React** and **Vite**, showcasing projects, skills, and experience in AI/ML and Data Science.
 
-Currently, two official plugins are available:
+🔗 **Live site:** [https://suryaprakash32143.github.io/PORTFOLIO/](https://suryaprakash32143.github.io/PORTFOLIO/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Hero** — animated typing effect with role rotation (AI/ML Engineer, Data Scientist, etc.)
+- **About** — background, education, and focus areas
+- **Projects** — featured work showcase
+- **Contact** — email, phone, LinkedIn, and GitHub links
+- **Responsive design** — works on desktop & mobile
 
-## Expanding the Oxlint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- [React](https://react.dev) 19
+- [Vite](https://vitejs.dev) 8
+- [oxlint](https://oxc.rs) for linting
+- [EmailJS](https://www.emailjs.com) for contact form
+
+## 🚀 Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start the dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview the production build
+npm run preview
+```
+
+## 🔨 Deployment
+
+This project auto-deploys to **GitHub Pages** via a [GitHub Actions workflow](.github/workflows/deploy.yml) on every push to `main`.
+
+## 📌 Structure
+
+```
+portfolio/
+├── .github/workflows/   # CI/CD deployment
+├── public/              # Static assets (favicon)
+├── src/
+│   ├── components/      # React components + styles
+│   ├── App.jsx          # Root component
+│   ├── main.jsx         # Entry point
+│   └── index.css        # Global styles
+├── index.html           # HTML entry
+├── vite.config.js       # Vite config (base: /PORTFOLIO/)
+└── package.json
+```
+
+---
+
+Made by [Surya Prakash](https://github.com/SuryaPrakash32143).

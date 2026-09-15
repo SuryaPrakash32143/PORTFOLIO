@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './Hero.css';
 
+const roles = [
+  'AI/ML Engineer',
+  'Data Scientist',
+  'Machine Learning Developer',
+  'Python Developer'
+];
+
 export default function Hero() {
   const [text, setText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(150);
-
-  const roles = [
-    'AI/ML Engineer',
-    'Data Scientist',
-    'Machine Learning Developer',
-    'Python Developer'
-  ];
 
   useEffect(() => {
     const handleType = () => {
@@ -37,7 +37,7 @@ export default function Hero() {
 
     const timer = setTimeout(handleType, typingSpeed);
     return () => clearTimeout(timer);
-  }, [text, isDeleting, loopNum, typingSpeed, roles]);
+  }, [text, isDeleting, loopNum, typingSpeed]);
 
   return (
     <section id="hero" className="hero">

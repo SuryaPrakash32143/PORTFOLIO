@@ -24,24 +24,17 @@ export default function Contact() {
     setStatus('');
 
     try {
-      // EmailJS configuration (you'll need to set up your own EmailJS account)
-      // For now, we'll simulate the email sending
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Uncomment and configure when you set up EmailJS:
-      /*
       await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
           to_email: 'suryaprakash321433@gmail.com'
         },
-        'YOUR_PUBLIC_KEY'
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
-      */
 
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
