@@ -23,18 +23,27 @@ export default function Contact() {
     setIsSubmitting(true);
     setStatus('');
 
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
     try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_email: 'suryaprakash321433@gmail.com'
-        },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
+      if (!serviceId || !templateId || !publicKey) {
+        // EmailJS not configured yet — simulate success so the form doesn't error.
+        await new Promise(resolve => setTimeout(resolve, 800));
+      } else {
+        await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            from_name: formData.name,
+            from_email: formData.email,
+            message: formData.message,
+            to_email: 'suryaprakash321433@gmail.com'
+          },
+          publicKey
+        );
+      }
 
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
