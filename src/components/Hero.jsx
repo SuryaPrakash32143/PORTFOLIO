@@ -1,135 +1,151 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Hero.css';
 
 const roles = [
   'AI/ML Engineer',
   'Data Scientist',
   'Machine Learning Developer',
-  'Python Developer'
+  'Python Developer',
 ];
+
+const modelCard = {
+  name: 'Surya Prakash',
+  role: 'AI / ML Engineer',
+  status: 'open_to_work',
+  university: 'Godavari Global University',
+  year: '3',
+  focus: ['supervised_learning', 'feature_engineering', 'applied_ai'],
+  languages: ['python', 'javascript'],
+  metrics: { r2_score: '~0.62', cgpa: '7.63' },
+};
+
+function JsonBox() {
+  const renderValue = (value) => {
+    if (typeof value === 'string') return `"${value}"`;
+    if (Array.isArray(value)) return `["${value.join('", "')}"]`;
+    if (typeof value === 'object') {
+      return (
+        <span className="json-inline">
+          {'{ '}
+          {Object.entries(value).map(([k, v], i, arr) => (
+            <span key={k}>
+              <span className="json-k">{k}</span>: {renderValue(v)}
+              {i < arr.length - 1 ? ', ' : ' '}
+            </span>
+          ))}
+          {'}'}
+        </span>
+      );
+    }
+    return String(value);
+  };
+
+  return (
+    <div className="jsonbox" role="img" aria-label="model_card.json describing Surya Prakash">
+      <div className="jsonbox-top">
+        <span className="jsonbox-dots">
+          <i /><i /><i />
+        </span>
+        <span className="jsonbox-title">model_card.json</span>
+      </div>
+      <pre className="jsonbox-body">
+        <code>
+          {Object.entries(modelCard).map(([k, v]) => (
+            <span className="json-line" key={k}>
+              <span className="json-indent">  </span>
+              <span className="json-k">"{k}"</span>
+              <span>: {renderValue(v)}</span>
+              {k !== 'metrics' ? ',' : ''}
+              {'\n'}
+            </span>
+          ))}
+        </code>
+      </pre>
+    </div>
+  );
+}
 
 export default function Hero() {
   const [text, setText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
-  const [typingSpeed, setTypingSpeed] = useState(150);
 
   useEffect(() => {
-    const handleType = () => {
-      const i = loopNum % roles.length;
-      const fullText = roles[i];
+    const fullText = roles[loopNum % roles.length];
 
-      setText(
-        isDeleting
-          ? fullText.substring(0, text.length - 1)
-          : fullText.substring(0, text.length + 1)
-      );
+    const tick = () => {
+      const next = isDeleting
+        ? fullText.substring(0, text.length - 1)
+        : fullText.substring(0, text.length + 1);
 
-      setTypingSpeed(isDeleting ? 50 : 150);
+      setText(next);
 
-      if (!isDeleting && text === fullText) {
-        setTimeout(() => setIsDeleting(true), 2000);
-      } else if (isDeleting && text === '') {
+      if (!isDeleting && next === fullText) {
+        setIsDeleting(true);
+      } else if (isDeleting && next === '') {
         setIsDeleting(false);
-        setLoopNum(loopNum + 1);
+        setLoopNum(n => n + 1);
       }
     };
 
-    const timer = setTimeout(handleType, typingSpeed);
+    const speed = isDeleting ? 55 : 150;
+    const timer = setTimeout(tick, speed);
     return () => clearTimeout(timer);
-  }, [text, isDeleting, loopNum, typingSpeed]);
+  }, [text, isDeleting, loopNum]);
+
+  const index = [
+    ['git', 'github.com/SuryaPrakash32143', 'https://github.com/SuryaPrakash32143'],
+    ['in', 'linkedin.com/in/surya-prakash-mullapudi-585355332', 'https://linkedin.com/in/surya-prakash-mullapudi-585355332'],
+    ['@', 'suryaprakash321433@gmail.com', 'mailto:suryaprakash321433@gmail.com'],
+  ];
 
   return (
-    <section id="hero" className="hero">
-      <div className="hero-background">
-        <div className="gradient-orb orb-1"></div>
-        <div className="gradient-orb orb-2"></div>
-        <div className="gradient-orb orb-3"></div>
-      </div>
-
+    <section id="top" className="hero">
       <div className="container">
-        <div className="hero-content">
-          <div className="hero-text">
-            <div className="hero-greeting fade-in-up">
-              👋 Hello, I'm
-            </div>
-            <h1 className="hero-title fade-in-up" style={{ animationDelay: '0.1s' }}>
-              <span className="highlight">Surya Prakash</span>
-            </h1>
-            <div className="hero-subtitle fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <span className="typing-text">
-                Aspiring <span className="typed-text">{text}</span>
-                <span className="cursor">|</span>
-              </span>
-            </div>
-            <p className="hero-description fade-in-up" style={{ animationDelay: '0.3s' }}>
-              3rd year B.Tech CSE (AI & ML) student with hands-on experience in data analysis,
-              machine learning pipelines, and model evaluation. Passionate about building intelligent
-              solutions that solve real-world problems.
-            </p>
-            <div className="hero-buttons fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <a href="#projects" className="btn btn-primary">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 2V18M10 18L16 12M10 18L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                View My Work
-              </a>
-              <a href="#contact" className="btn btn-secondary">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 8L8.5 12.5L17 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Get In Touch
-              </a>
-            </div>
+        <p className="hero-kicker mono">$ whoami</p>
 
-            <div className="hero-social fade-in-up" style={{ animationDelay: '0.5s' }}>
-              <a href="https://github.com/SuryaPrakash32143" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                </svg>
-              </a>
-              <a href="https://linkedin.com/in/surya-prakash-mullapudi-585355332" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </a>
-              <a href="mailto:suryaprakash321433@gmail.com" aria-label="Email">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-              </a>
-            </div>
-          </div>
+        <h1 className="hero-title">
+          Surya Prakash —<br />
+          building <em>intelligent systems</em>
+          <br />
+          with Python &amp; data.
+        </h1>
 
-          <div className="hero-image fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <div className="image-wrapper">
-              <div className="floating-card card-1">
-                <span className="card-icon">🤖</span>
-                <span className="card-text">AI/ML</span>
-              </div>
-              <div className="floating-card card-2">
-                <span className="card-icon">📊</span>
-                <span className="card-text">Data Science</span>
-              </div>
-              <div className="floating-card card-3">
-                <span className="card-icon">🐍</span>
-                <span className="card-text">Python</span>
-              </div>
-            </div>
-          </div>
+        <div className="hero-sub">
+          <span className="hero-typing" aria-label="aspiring roles">
+            Aspiring <span className="hero-typed">{text}</span>
+            <span className="hero-cursor" aria-hidden="true">▌</span>
+          </span>
+          <span className="hero-dot" aria-hidden="true">·</span>
+          <span className="hero-sub-note">B.Tech AI &amp; ML, 3rd year</span>
+        </div>
+
+        <p className="hero-deck">
+          3rd year B.Tech CSE (AI &amp; ML) student with hands-on experience in data analysis,
+          machine learning pipelines, and model evaluation. Passionate about building intelligent
+          solutions that solve real-world problems.
+        </p>
+
+        <div className="hero-actions">
+          <a href="#projects" className="btn btn-signal">
+            <span className="btn-label">View my work</span>
+            <span className="btn-arrow" aria-hidden="true">↓</span>
+          </a>
+          <a href="#contact" className="btn btn-ghost">
+            Get in touch
+          </a>
+        </div>
+
+        <div className="hero-links mono-soft">
+          {index.map(([tag, label, href]) => (
+            <a key={tag} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
+              <span className="hero-link-tag">[{tag}]</span> {label}
+            </a>
+          ))}
         </div>
       </div>
 
-      <div className="scroll-indicator">
-        <div className="mouse">
-          <div className="wheel"></div>
-        </div>
-        <div className="arrow">
-          <span></span>
-          <span></span>
-        </div>
-      </div>
+      <JsonBox />
     </section>
   );
 }

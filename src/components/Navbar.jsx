@@ -1,97 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Navbar.css';
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Check if page is scrolled
-      setScrolled(window.scrollY > 50);
-
-      // Detect active section
-      const sections = ['hero', 'about', 'projects', 'contact'];
-      const current = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        return false;
-      });
-
-      if (current) {
-        setActiveSection(current);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const links = [
+    ['about', 'About'],
+    ['projects', 'Projects'],
+    ['contact', 'Contact'],
+  ];
 
-  const closeMenu = () => {
-    setIsOpen(false);
+  // Smooth-scroll helper: close the mobile menu first (so its closing
+  // animation doesn't fight the page scroll), then glide to the section.
+  const goTo = (e, id) => {
+    e.preventDefault();
+    const wasOpen = open;
+    setOpen(false);
+    window.setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }, wasOpen ? 140 : 0);
   };
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="container">
-        <div className="navbar-content">
-          <div className="navbar-logo">
-            <a href="#hero">
-              <span className="logo-text">SP</span>
-              <span className="logo-name">Surya Prakash</span>
-            </a>
-          </div>
+    <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
+      <div className="container nav-inner">
+        <a href="#top" className="nav-brand" onClick={(e) => goTo(e, 'top')}>
+          <span className="nav-brand-mark">SP</span>
+          <span className="nav-brand-meta">Surya Prakash<span className="nav-brand-blk"> / AI-ML</span></span>
+        </a>
 
-          <div className={`navbar-links ${isOpen ? 'active' : ''}`}>
-            <a
-              href="#hero"
-              className={activeSection === 'hero' ? 'active' : ''}
-              onClick={closeMenu}
-            >
-              Home
+        <nav className={`nav-links ${open ? 'open' : ''}`} aria-label="Primary">
+          {links.map(([href, label]) => (
+            <a key={href} href={`#${href}`} onClick={(e) => goTo(e, href)}>
+              <span className="nav-count">0{links.findIndex(([h]) => h === href) + 1}.</span>
+              {label}
             </a>
-            <a
-              href="#about"
-              className={activeSection === 'about' ? 'active' : ''}
-              onClick={closeMenu}
-            >
-              About
-            </a>
-            <a
-              href="#projects"
-              className={activeSection === 'projects' ? 'active' : ''}
-              onClick={closeMenu}
-            >
-              Projects
-            </a>
-            <a
-              href="#contact"
-              className={activeSection === 'contact' ? 'active' : ''}
-              onClick={closeMenu}
-            >
-              Contact
-            </a>
-          </div>
+          ))}
+          <a href="#contact" className="nav-cta" onClick={(e) => goTo(e, 'contact')}>
+            Contact
+          </a>
+        </nav>
 
-          <button
-            className={`navbar-toggle ${isOpen ? 'active' : ''}`}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            <span className="bar"></span>
-            <span className="bar"></span>
-            <span className="bar"></span>
-          </button>
-        </div>
+        <button
+          className={`nav-toggle ${open ? 'open' : ''}`}
+          onClick={() => setOpen(v => !v)}
+          aria-label="Toggle menu"
+          aria-expanded={open}
+        >
+          <span></span><span></span>
+        </button>
       </div>
-    </nav>
+    </header>
   );
 }
